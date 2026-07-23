@@ -1,0 +1,22 @@
+--[[
+By HalisAnteo
+]]
+
+local function check()
+    local s, r = pcall(function()
+        task.wait(0)
+        return true
+    end)
+    if not s then return false end
+    local s2, r2 = pcall(function()
+        return typeof(Vector3.zero) == "Vector3"
+    end)
+    if not s2 then return false end
+    return r2
+end
+
+if not check() then
+    print("detected")
+    return
+end
+print("pass")
