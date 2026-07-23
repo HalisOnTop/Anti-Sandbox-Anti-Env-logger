@@ -1,0 +1,17 @@
+local function check()
+    local s, r = pcall(function()
+        local con = workspace.ChildAdded:Connect(function() end)
+        local cons = getconnections(workspace.ChildAdded)
+        con:Disconnect()
+        return type(cons) == "table" and #cons > 0
+    end)
+    if not s then return false end
+    return r
+end
+
+if not check() then
+    print("detected")
+    return
+end
+
+print("pass")
