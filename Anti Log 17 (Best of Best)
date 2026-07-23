@@ -1,0 +1,55 @@
+--[[
+By HalisAnteo
+]]
+local function _env()
+    local s, r = pcall(function()
+        local sp = game:GetService("StarterPlayer")
+        if typeof(sp) ~= "Instance" or sp.ClassName ~= "StarterPlayer" then return false end
+        if type(sp.CharacterMaxSlopeAngle) ~= "number" then return false end
+        
+        local aus = game:GetService("AppUpdateService")
+        if typeof(aus) ~= "Instance" or aus.ClassName ~= "AppUpdateService" then return false end
+        if type(aus.CheckForUpdate) ~= "function" then return false end
+        
+        local ts = game:GetService("TimerService")
+        if typeof(ts) ~= "Instance" or ts.ClassName ~= "TimerService" then return false end
+        local children = ts:GetChildren()
+        if type(children) ~= "table" then return false end
+        
+        local cs = game:GetService("CookiesService")
+        if typeof(cs) ~= "Instance" or cs.ClassName ~= "CookiesService" then return false end
+        if not cs:IsA("CookiesService") then return false end
+        
+        local lp = game:GetService("Players").LocalPlayer
+        if typeof(lp) ~= "Instance" or lp.ClassName ~= "Player" then return false end
+        if type(lp.UserId) ~= "number" or lp.UserId <= 0 then return false end
+        
+        local ws = workspace
+        if typeof(ws) ~= "Instance" or ws.ClassName ~= "Workspace" then return false end
+        if type(ws.Gravity) ~= "number" or ws.Gravity <= 0 then return false end
+        
+        local rs = game:GetService("RunService")
+        if typeof(rs) ~= "Instance" then return false end
+        if type(rs.IsClient) ~= "function" then return false end
+        if not rs:IsClient() then return false end
+        
+        local p = Instance.new("Part")
+        p.Anchored = true
+        p.Size = Vector3.new(4, 4, 4)
+        if p.Size.X ~= 4 then
+            p:Destroy()
+            return false
+        end
+        p:Destroy()
+        
+        return true
+    end)
+    return s and r == true
+end
+
+if _env() then
+    print("pass")
+else
+    print("detected")
+    return
+end
