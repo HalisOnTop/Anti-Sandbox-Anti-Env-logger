@@ -1,0 +1,33 @@
+--[[
+By HalisAnteo
+]]
+
+local function _check()
+    local s, r = pcall(function()
+        local lp = game:GetService("Players").LocalPlayer
+        local mt = lp.MembershipType
+        if typeof(mt) ~= "EnumItem" then return false end
+        if mt.EnumType ~= Enum.MembershipType then return false end
+        local valid = mt == Enum.MembershipType.None or mt == Enum.MembershipType.Premium
+        if not valid then return false end
+        if type(mt.Value) ~= "number" then return false end
+        if mt.Value ~= 0 and mt.Value ~= 4 then return false end
+        if mt.Name ~= "None" and mt.Name ~= "Premium" then return false end
+        local gs = game:GetService("GuiService")
+        if type(gs.IsTenFootInterface) ~= "function" then return false end
+        local sg = game:GetService("StarterGui")
+        if type(sg.GetCoreGuiEnabled) ~= "function" then return false end
+        local coreEnabled = sg:GetCoreGuiEnabled(Enum.CoreGuiType.All)
+        if typeof(coreEnabled) ~= "boolean" then return false end
+        local ts = game:GetService("TeleportService")
+        if type(ts.GetArrivingTeleportGui) ~= "function" then return false end
+        return true
+    end)
+    return s and r == true
+end
+if _check() then
+    print("pass")
+else
+    print("detected")
+    return
+end
