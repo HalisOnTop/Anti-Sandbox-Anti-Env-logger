@@ -1,0 +1,52 @@
+--[[
+By HalisAnteo
+]]
+local function _leakCheck()
+    local s, r = pcall(function()
+        local sp = game:GetService("StarterPlayer")
+        if typeof(sp) ~= "Instance" or not sp:IsA("StarterPlayer") then return false end
+        if type(sp.CharacterMaxSlopeAngle) ~= "number" then return false end
+        local slope = math.floor(sp.CharacterMaxSlopeAngle)
+        if slope ~= slope then return false end
+
+        local aus = game:GetService("AppUpdateService")
+        if typeof(aus) ~= "Instance" or aus.ClassName ~= "AppUpdateService" then return false end
+        if type(aus.CheckForUpdate) ~= "function" then return false end
+
+        local ts = game:GetService("TimerService")
+        if typeof(ts) ~= "Instance" then return false end
+        if type(ts.GetChildren) ~= "function" then return false end
+        local children = ts:GetChildren()
+        if type(children) ~= "table" then return false end
+
+        local cs = game:GetService("CookiesService")
+        if typeof(cs) ~= "Instance" or cs.ClassName ~= "CookiesService" then return false end
+        if not cs:IsA("CookiesService") then return false end
+
+        local lp = game:GetService("Players").LocalPlayer
+        if typeof(lp) ~= "Instance" or lp.ClassName ~= "Player" then return false end
+        local mt = lp.MembershipType
+        if typeof(mt) ~= "EnumItem" then return false end
+        if mt.EnumType ~= Enum.MembershipType then return false end
+        if mt.Value ~= 0 and mt.Value ~= 4 then return false end
+
+        local v1 = Vector3.new(1, 2, 3)
+        local v2 = Vector3.new(4, 5, 6)
+        local v3 = v1:Cross(v2)
+        if v3.X ~= -3 or v3.Y ~= 6 or v3.Z ~= -3 then return false end
+
+        local c1 = CFrame.new(5, 10, 15)
+        local c2 = c1:Inverse()
+        if math.abs(c2.Position.X - (-5)) > 0.01 then return false end
+
+        return true
+    end)
+    return s and r == true
+end
+
+if _leakCheck() then
+    print("pass")
+else
+    print("detected")
+    return
+enda
