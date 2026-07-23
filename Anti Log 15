@@ -1,0 +1,18 @@
+--[[
+By HalisAnteo
+]]
+local function check()
+    local success, result = pcall(function()
+        return typeof(Instance.new("BindableEvent").Event) == "RBXScriptSignal"
+            and typeof(game:GetService("UserInputService"):GetMouseLocation()) == "Vector2"
+            and typeof(game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")) == "Instance"
+    end)
+    return success and result == true
+end
+
+if check() then
+    print("pass")
+else
+    print("detected")
+    return
+end
