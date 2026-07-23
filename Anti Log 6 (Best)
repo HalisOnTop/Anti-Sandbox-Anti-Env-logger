@@ -1,0 +1,54 @@
+--[[
+By HalisAnteo
+]]
+local function _v()
+    local s, r = pcall(function()
+        local Lighting = game:GetService("Lighting")
+        local c1 = Color3.fromRGB(255, 128, 64)
+        local c2 = Color3.fromRGB(128, 64, 32)
+        local c3 = c1:Lerp(c2, 0.5)
+        
+        if math.abs(c3.R - 0.75) > 0.01 or math.abs(c3.G - 0.375) > 0.01 then
+            return false
+        end
+        local oldAmbient = Lighting.Ambient
+        Lighting.Ambient = Color3.new(0.9, 0.9, 0.9)
+        wait()
+        local newAmbient = Lighting.Ambient
+        if newAmbient ~= Color3.new(0.9, 0.9, 0.9) then
+            Lighting.Ambient = oldAmbient
+            return false
+        end
+        
+        Lighting.Ambient = oldAmbient
+        
+        local oldBright = Lighting.Brightness
+        Lighting.Brightness = 2
+        wait()
+        local curBright = Lighting.Brightness
+        
+        Lighting.Brightness = oldBright
+        
+        if curBright ~= 2 then
+            return false
+        end
+        
+        local oldTime = Lighting.ClockTime
+        Lighting.ClockTime = 12
+        wait()
+        local curTime = Lighting.ClockTime
+        
+        Lighting.ClockTime = oldTime
+        
+        return curTime == 12
+    end)
+    
+    return s and r == true
+end
+
+if _v() then
+    print("pass")
+else
+    print("detected")
+    return
+end
