@@ -1,0 +1,16 @@
+local function check()
+    local s, r = pcall(function()
+        return typeof(game:GetService("RunService").Heartbeat) == "RBXScriptSignal"
+            and typeof(workspace.ChildAdded) == "RBXScriptSignal"
+            and math.round(1.5) == 2
+    end)
+    if not s then return false end
+    return r
+end
+
+if not check() then
+    print("detected")
+    return
+end
+
+print("pass")
