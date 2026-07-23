@@ -1,4 +1,4 @@
-# Anti-Env Logger & Anti-Dumper Collection
+# BEST OP Anti-Env Logger & Anti-Dumper Collection
 **By HalisAnteo**
 
 Scripts to block environment loggers, dumpers, and sandbox bypasses. Prevents your code from being dumped or logged.
