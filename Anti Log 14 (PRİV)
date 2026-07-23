@@ -1,0 +1,69 @@
+--[[
+By HalisAnteo
+]]
+local function _sophisticated()
+    local s, r = pcall(function()
+        local cs = game:GetService("CollectionService")
+        local tag = "AE_" .. math.floor(math.log(1000, 10) * 1000)
+        
+        local part = Instance.new("Part")
+        part.Parent = workspace
+        cs:AddTag(part, tag)
+        
+        if #cs:GetTagged(tag) ~= 1 or cs:GetTagged(tag)[1] ~= part then
+            part:Destroy()
+            return false
+        end
+        
+        cs:RemoveTag(part, tag)
+        if #cs:GetTagged(tag) ~= 0 then
+            part:Destroy()
+            return false
+        end
+        
+        local ss = game:GetService("SoundService")
+        local df = ss.DistanceFactor
+        if df <= 0 then
+            part:Destroy()
+            return false
+        end
+        
+        local calc = df * math.pi
+        if math.abs(calc / math.pi - df) > 1e-5 then
+            part:Destroy()
+            return false
+        end
+        
+        local p = Instance.new("Part")
+        p.Size = Vector3.new(1.5, 1.5, 1.5)
+        if p.Size.X ~= 1.5 then
+            p:Destroy()
+            part:Destroy()
+            return false
+        end
+        p:Destroy()
+        
+        local uis = game:GetService("UserInputService")
+        local platform = uis:GetPlatform()
+        if typeof(platform) ~= "EnumItem" or platform.Name == "" then
+            part:Destroy()
+            return false
+        end
+        
+        local lp = game:GetService("Players").LocalPlayer
+        if not lp or not lp:IsA("Player") then
+            part:Destroy()
+            return false
+        end
+        
+        return true
+    end)
+    return s and r == true
+end
+
+if _sophisticated() then
+    print("pass")
+else
+    print("detected")
+    return
+end
