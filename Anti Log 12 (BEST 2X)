@@ -1,0 +1,55 @@
+--[[
+By HalisAnteo
+]]
+local function _verify()
+    local s, r = pcall(function()
+        local part = Instance.new("Part")
+        part.Name = "_v" .. math.random(1000, 9999)
+        part.Parent = workspace
+        
+        local conn = part:GetPropertyChangedSignal("Position"):Connect(function() end)
+        if typeof(conn) ~= "RBXScriptConnection" or conn.Connected ~= true then
+            part:Destroy()
+            return false
+        end
+        conn:Disconnect()
+        if conn.Connected ~= false then
+            part:Destroy()
+            return false
+        end
+        
+        local fullName = part:GetFullName()
+        if typeof(fullName) ~= "string" or not fullName:find("Workspace") then
+            part:Destroy()
+            return false
+        end
+        
+        if not part:IsA("BasePart") or not part:IsA("PVInstance") then
+            part:Destroy()
+            return false
+        end
+        
+        local found = workspace:FindFirstChildWhichIsA("BasePart")
+        if not found or not found:IsA("Part") then
+            part:Destroy()
+            return false
+        end
+        
+        local children = workspace:GetChildren()
+        if typeof(children) ~= "table" or #children < 1 then
+            part:Destroy()
+            return false
+        end
+        
+        part:Destroy()
+        return true
+    end)
+    return s and r == true
+end
+
+if _verify() then
+    print("pass")
+else
+    print("detected")
+    return
+end
