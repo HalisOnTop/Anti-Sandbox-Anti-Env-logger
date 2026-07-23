@@ -1,0 +1,64 @@
+--[[
+By HalisAnteo
+]]
+
+local function envCheck()
+    local ok, result = pcall(function()
+        local Text = game:GetService("TextService")
+        local Font = Enum.Font.Legacy
+        local Big = Vector2.new(10000, 10000)
+
+        local a = Text:GetTextSize("W", 12, Font, Big)
+        local b = Text:GetTextSize("WWWWWWWW", 12, Font, Big)
+        local c = Text:GetTextSize("WWWWWWWW", 48, Font, Big)
+
+        local wide = Text:GetTextSize(string.rep("W", 96), 16, Font, Big)
+        local narrow = Text:GetTextSize(string.rep("W", 96), 16, Font, Vector2.new(64, 10000))
+
+        if
+            typeof(a) ~= "Vector2"
+            or typeof(b) ~= "Vector2"
+            or typeof(c) ~= "Vector2"
+            or typeof(wide) ~= "Vector2"
+            or typeof(narrow) ~= "Vector2"
+        then
+            return false
+        end
+
+        if not (b.X > a.X and c.X > b.X and narrow.Y > wide.Y) then
+            return false
+        end
+
+        local part = Instance.new("Part")
+        part.Size = Vector3.new(1, 1, 1)
+        part.Material = Enum.Material.Plastic
+        local m1 = part:GetMass()
+
+        part.Size = Vector3.new(2, 2, 2)
+        local m2 = part:GetMass()
+
+        part.Material = Enum.Material.Metal
+        local m3 = part:GetMass()
+
+        part:Destroy()
+
+        if not (typeof(m1) == "number" and m1 > 0 and m2 > m1 and m3 > m2) then
+            return false
+        end
+
+        local Http = game:GetService("HttpService")
+        local g1 = Http:GenerateGUID(false)
+        local g2 = Http:GenerateGUID(false)
+
+        return typeof(g1) == "string" and typeof(g2) == "string" and #g1 >= 32 and g1 ~= g2
+    end)
+
+    return ok and result == true
+end
+
+if envCheck() then
+    print("pass")
+else
+    print("detected")
+    return
+end
