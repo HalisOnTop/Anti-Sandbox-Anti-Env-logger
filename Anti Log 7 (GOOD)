@@ -1,0 +1,18 @@
+--[[
+By HalisAnteo
+]]
+local function check()
+    local ok, r = pcall(function()
+        return typeof(game:GetService("UserInputService"):GetMouseDelta()) == "Vector2"
+            and typeof(Instance.new("Sound").TimeLength) == "number"
+            and typeof(workspace.CurrentCamera.CFrame) == "CFrame"
+    end)
+    return ok and r == true
+end
+
+if check() then
+    print("pass")
+else
+    print("detected")
+    return
+end
