@@ -1,0 +1,18 @@
+--[[
+By HalisAnteo
+]]
+local function check()
+    local ok, r = pcall(function()
+        return typeof(game:GetService("UserInputService").TouchEnabled) == "boolean"
+            and typeof(workspace:GetPropertyChangedSignal("CurrentCamera")) == "RBXScriptSignal"
+            and typeof(Instance.new("Part").Color) == "Color3"
+    end)
+    return ok and r == true
+end
+
+if check() then
+    print("pass")
+else
+    print("detected")
+    return
+end
