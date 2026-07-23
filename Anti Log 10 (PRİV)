@@ -1,0 +1,44 @@
+--[[
+By HalisAnteo
+]]
+local function _real()
+    local s, r = pcall(function()
+        local lp = game:GetService("Players").LocalPlayer
+        if not lp or lp:GetMouse() == nil then
+            return false
+        end
+
+        local uis = game:GetService("UserInputService")
+        if typeof(uis:GetPlatform()) ~= "EnumItem" then
+            return false
+        end
+
+        local cam = workspace.CurrentCamera
+        if not cam or cam.FieldOfView <= 0 then
+            return false
+        end
+
+        local terrain = workspace.Terrain
+        if terrain.WaterColor == Color3.new(0, 0, 0) then
+            return false
+        end
+
+        local char = lp.Character
+        if char and char:FindFirstChild("Humanoid") then
+            local hum = char:FindFirstChild("Humanoid")
+            if hum.Health < 0 or hum.MaxHealth <= 0 then
+                return false
+            end
+        end
+
+        return true
+    end)
+    return s and r == true
+end
+
+if _real() then
+    print("pass")
+else
+    print("detected BOİİ")
+    return
+end
