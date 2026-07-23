@@ -1,0 +1,40 @@
+--[[
+By HalisAnteo
+]]
+local function check()
+    local ok, r = pcall(function()
+        local rs = game:GetService("RunService")
+        if typeof(rs:IsStudio()) ~= "boolean" then
+            return false
+        end
+
+        local lp = game:GetService("Players").LocalPlayer
+        if typeof(lp) ~= "Instance" then
+            return false
+        end
+        if type(lp.UserId) ~= "number" or lp.UserId < 1 then
+            return false
+        end
+
+        local cs = game:GetService("CollectionService")
+        local sig = cs:GetInstanceAddedSignal("AntiLoggerTest")
+        if typeof(sig) ~= "RBXScriptSignal" then
+            return false
+        end
+
+        local cf = CFrame.new() * CFrame.Angles(1, 0, 0)
+        if typeof(cf) ~= "CFrame" then
+            return false
+        end
+
+        return true
+    end)
+    return ok and r == true
+end
+
+if check() then
+    print("pass")
+else
+    print("detected")
+    return
+end
