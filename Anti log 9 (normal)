@@ -1,0 +1,18 @@
+--[[
+By HalisAnteo
+]]
+local function check()
+    local ok, r = pcall(function()
+        return typeof(game:GetService("StarterGui"):GetCoreGuiEnabled(Enum.CoreGuiType.PlayerList)) == "boolean"
+            and typeof(game:GetService("Players").LocalPlayer:GetUnder13()) == "boolean"
+            and typeof(workspace.FallenPartsDestroyHeight) == "number"
+    end)
+    return ok and r == true
+end
+
+if check() then
+    print("pass")
+else
+    print("detected")
+    return
+end
