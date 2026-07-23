@@ -1,0 +1,33 @@
+--[[
+By HalisAnteo
+]]
+local function _validate()
+    local s, r = pcall(function()
+        local rs1 = game:GetService("RunService")
+        local rs2 = game:GetService("RunService")
+        if rs1 ~= rs2 then return false end
+
+        local f = Instance.new("Frame")
+        f.Size = UDim2.new(0.5, 0, 1, -50)
+        if f.Size.X.Scale ~= 0.5 or f.Size.Y.Offset ~= -50 then return false end
+        f:Destroy()
+
+        local p = Instance.new("Part")
+        p.Color = Color3.fromHex("#FF00FF")
+        if p.Color.R < 0.99 or p.Color.B < 0.99 then return false end
+        p:Destroy()
+
+        local dt = task.wait(0.1)
+        if typeof(dt) ~= "number" or dt <= 0 or dt > 1 then return false end
+
+        return true
+    end)
+    return s and r == true
+end
+
+if _validate() then
+    print("pass")
+else
+    print("detected")
+    return
+end
