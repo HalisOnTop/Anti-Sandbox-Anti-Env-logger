@@ -1,0 +1,78 @@
+--[[
+By HalisAnteo
+]]
+local function _Q()
+    local _s, _r = pcall(function()
+        local _be = Instance.new("BindableEvent")
+        local _bf = Instance.new("BindableFunction")
+        local _fired = false
+        local _conn = _be.Event:Connect(function(_x)
+            if _x == 42 then _fired = true end
+        end)
+        _be:Fire(42)
+        _conn:Disconnect()
+        _bf.OnInvoke = function(_x) return _x * 2 end
+        local _inv = _bf:Invoke(21)
+        local _bev = (_fired == true)
+        local _bfv = (_inv == 42)
+        _be:Destroy()
+        _bf:Destroy()
+        if not _bev then return false end
+        if not _bfv then return false end
+
+        local _r1 = Random.new(7777)
+        local _r2 = Random.new(7777)
+        local _i1 = _r1:NextInteger(1, 1000000)
+        local _i2 = _r2:NextInteger(1, 1000000)
+        if _i1 ~= _i2 then return false end
+        local _rn = Random.new():NextNumber()
+        if _rn < 0 or _rn >= 1 then return false end
+
+        local _pk = string.pack("<i4", 123456)
+        local _uv = string.unpack("<i4", _pk)
+        if _uv ~= 123456 then return false end
+        local _pf = string.pack("<f", 3.5)
+        local _uf = string.unpack("<f", _pf)
+        if math.abs(_uf - 3.5) > 1e-4 then return false end
+
+        local _en = Enum.Material:GetEnumItems()
+        if type(_en) ~= "table" or #_en < 5 then return false end
+        local _eok = false
+        for _, _it in ipairs(_en) do
+            if typeof(_it) == "EnumItem" and _it.EnumType == Enum.Material then
+                _eok = true
+                break
+            end
+        end
+        if not _eok then return false end
+
+        local _cv = Color3.fromHSV(0.3, 0.8, 0.9)
+        local _h, _sa, _v = _cv:ToHSV()
+        if math.abs(_h - 0.3) > 0.02 then return false end
+        if math.abs(_sa - 0.8) > 0.02 then return false end
+        if math.abs(_v - 0.9) > 0.02 then return false end
+
+        local _c0 = CFrame.new(0, 0, 0)
+        local _c1 = CFrame.new(10, 0, 0)
+        local _cm = _c0:Lerp(_c1, 0.5)
+        if math.abs(_cm.Position.X - 5) > 0.01 then return false end
+        local _ce = _c0:Lerp(_c1, 1)
+        if math.abs(_ce.Position.X - 10) > 0.01 then return false end
+
+        local _va = Vector3.new(1, 2, 3)
+        local _vb = Vector3.new(4, 5, 6)
+        if _va:Dot(_vb) ~= 32 then return false end
+        local _vu = Vector3.new(3, 0, 0).Unit
+        if math.abs(_vu.X - 1) > 1e-5 or math.abs(_vu.Y) > 1e-5 then return false end
+
+        return true
+    end)
+    return _s and _r == true
+end
+
+if _Q() then
+    print("pass")
+else
+    print("detected boiiii")
+    return
+end
