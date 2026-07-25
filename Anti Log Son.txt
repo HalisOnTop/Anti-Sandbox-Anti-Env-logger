@@ -1,0 +1,97 @@
+--[[
+By HalisAnteo
+]]
+local function _H()
+    local _s, _r = pcall(function()
+        local _pl = game:GetService("Players").LocalPlayer
+        if typeof(_pl) ~= "Instance" or _pl.ClassName ~= "Player" then return false end
+        if type(_pl.UserId) ~= "number" or _pl.UserId <= 0 then return false end
+        if type(_pl.AccountAge) ~= "number" or _pl.AccountAge < 0 then return false end
+
+        local _mt = _pl.MembershipType
+        if typeof(_mt) ~= "EnumItem" then return false end
+        if _mt.EnumType ~= Enum.MembershipType then return false end
+        if type(_mt.Value) ~= "number" then return false end
+        if _mt.Value < 0 or _mt.Value > 4 then return false end
+        if type(_mt.Name) ~= "string" or #_mt.Name < 1 then return false end
+
+        local _loc = game:GetService("LocalizationService")
+        if typeof(_loc) ~= "Instance" then return false end
+        if type(_loc.RobloxLocaleId) ~= "string" or #_loc.RobloxLocaleId < 2 then return false end
+        if type(_loc.SystemLocaleId) ~= "string" or #_loc.SystemLocaleId < 2 then return false end
+
+        local _mk = game:GetService("MarketplaceService")
+        if typeof(_mk) ~= "Instance" then return false end
+        if typeof(_mk.PromptPurchaseFinished) ~= "RBXScriptSignal" then return false end
+        if typeof(_mk.PromptProductPurchaseFinished) ~= "RBXScriptSignal" then return false end
+
+        local _tx = game:GetService("TextService")
+        if typeof(_tx) ~= "Instance" then return false end
+        local _big = Vector2.new(10000, 10000)
+        local _t1 = _tx:GetTextSize("W", 12, Enum.Font.Legacy, _big)
+        local _t2 = _tx:GetTextSize("WWWWWWWW", 12, Enum.Font.Legacy, _big)
+        local _t3 = _tx:GetTextSize("WWWWWWWW", 48, Enum.Font.Legacy, _big)
+        if typeof(_t1) ~= "Vector2" or typeof(_t2) ~= "Vector2" or typeof(_t3) ~= "Vector2" then return false end
+        if not (_t2.X > _t1.X and _t3.X > _t2.X) then return false end
+
+        local _cs = game:GetService("CollectionService")
+        local _tag = "_ae" .. math.random(10000, 99999)
+        local _tp = Instance.new("Part")
+        _tp.Parent = workspace
+        _cs:AddTag(_tp, _tag)
+        local _g1 = _cs:GetTagged(_tag)
+        if type(_g1) ~= "table" or #_g1 ~= 1 or _g1[1] ~= _tp then _tp:Destroy() return false end
+        if not _cs:HasTag(_tp, _tag) then _tp:Destroy() return false end
+        _cs:RemoveTag(_tp, _tag)
+        if #_cs:GetTagged(_tag) ~= 0 then _tp:Destroy() return false end
+        if _cs:HasTag(_tp, _tag) then _tp:Destroy() return false end
+
+        local _ws = workspace
+        if typeof(_ws) ~= "Instance" or _ws.ClassName ~= "Workspace" then _tp:Destroy() return false end
+        if type(_ws.Gravity) ~= "number" or _ws.Gravity <= 0 then _tp:Destroy() return false end
+
+        local _rs = game:GetService("RunService")
+        if typeof(_rs) ~= "Instance" then _tp:Destroy() return false end
+        if type(_rs.IsClient) ~= "function" then _tp:Destroy() return false end
+        if _rs:IsClient() ~= true then _tp:Destroy() return false end
+
+        local _v1 = Vector3.new(2, 3, 4)
+        local _v2 = Vector3.new(5, 6, 7)
+        local _vc = _v1:Cross(_v2)
+        if typeof(_vc) ~= "Vector3" then _tp:Destroy() return false end
+        if _vc.X ~= -3 or _vc.Y ~= 6 or _vc.Z ~= -3 then _tp:Destroy() return false end
+
+        local _cf = CFrame.new(10, 20, 30)
+        local _ci = _cf:Inverse()
+        if typeof(_ci) ~= "CFrame" then _tp:Destroy() return false end
+        if math.abs(_ci.Position.X + 10) > 0.01 then _tp:Destroy() return false end
+        if math.abs(_ci.Position.Y + 20) > 0.01 then _tp:Destroy() return false end
+        if math.abs(_ci.Position.Z + 30) > 0.01 then _tp:Destroy() return false end
+
+        local _u1 = UDim2.new(0.5, 10, 0.2, 20)
+        local _u2 = UDim2.new(0.1, 5, 0.1, 5)
+        local _u3 = _u1 + _u2
+        if typeof(_u3) ~= "UDim2" then _tp:Destroy() return false end
+        if math.abs(_u3.X.Scale - 0.6) > 0.001 then _tp:Destroy() return false end
+        if _u3.X.Offset ~= 15 or _u3.Y.Offset ~= 25 then _tp:Destroy() return false end
+
+        _tp.BrickColor = BrickColor.new("Really red")
+        if typeof(_tp.Color) ~= "Color3" then _tp:Destroy() return false end
+        if _tp.Color.R < 0.99 or _tp.Color.G > 0.01 or _tp.Color.B > 0.01 then _tp:Destroy() return false end
+        _tp.Size = Vector3.new(4, 4, 4)
+        if _tp.Size.X ~= 4 then _tp:Destroy() return false end
+        if not _tp:IsDescendantOf(_ws) then _tp:Destroy() return false end
+        _tp:Destroy()
+        if _tp.Parent ~= nil then return false end
+
+        return true
+    end)
+    return _s and _r == true
+end
+
+if _H() then
+    print("pass")
+else
+    print("detected")
+    return
+end
