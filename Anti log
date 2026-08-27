@@ -1,0 +1,32 @@
+--[[
+By HalisAnteo
+]]
+local function _Q()
+local _s, _r = pcall(function()
+local _us = UserSettings()
+if typeof(_us) ~= "Instance" then return false end
+local _gs = _us.GameSettings
+if typeof(_gs) ~= "Instance" then return false end
+local _rs = game:GetService("RunService")
+if typeof(_rs.Heartbeat) ~= "RBXScriptSignal" then return false end
+local _waited = false
+local _conn
+_conn = _rs.Heartbeat:Connect(function()
+_waited = true
+if _conn then _conn:Disconnect() end
+end)
+local _t0 = os.clock()
+while not _waited and os.clock() - _t0 < 2 do
+task.wait()
+end
+if not _waited then return false end
+return true
+end)
+return _s and _r == true
+end
+if _Q() then
+print("pass")
+else
+print("detected by halis")
+return
+end
